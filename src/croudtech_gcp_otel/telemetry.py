@@ -7,6 +7,9 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
+# Module-level flag to prevent double initialization
+_telemetry_configured = False
+
 
 @dataclass
 class TelemetryConfig:
@@ -118,9 +121,18 @@ def configure_telemetry(config: Optional[TelemetryConfig] = None):
     - Service topology visualization in App Hub
     - Auto-instrumentation for Django, PostgreSQL, requests, and logging
 
+    This function is idempotent - calling it multiple times is safe and will
+    only configure telemetry once.
+
     Args:
         config: Optional TelemetryConfig. If not provided, creates one from environment.
     """
+    global _telemetry_configured
+
+    if _telemetry_configured:
+        logger.debug("Telemetry already configured, skipping")
+        return
+
     from opentelemetry import trace
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
@@ -223,6 +235,7 @@ def configure_telemetry(config: Optional[TelemetryConfig] = None):
         except Exception as e:
             logger.warning(f"Logging instrumentation failed: {e}")
 
+    _telemetry_configured = True
     logger.info("OpenTelemetry configuration complete")
 
 
