@@ -5,15 +5,32 @@ OpenTelemetry configuration utilities for GCP Cloud Trace and Cloud Logging inte
 ## Installation
 
 ```bash
+# Install from GitHub with pip
+pip install git+https://github.com/CroudTech/croudtech-python-gcp-otel.git
+
+# Install a specific version
+pip install git+https://github.com/CroudTech/croudtech-python-gcp-otel.git@v0.1.0
+
 # Install with Poetry
-poetry add croudtech-python-gcp-otel
+poetry add git+https://github.com/CroudTech/croudtech-python-gcp-otel.git
 
-# With all instrumentations
-poetry add croudtech-python-gcp-otel --extras all
-
-# Or with specific instrumentations
-poetry add croudtech-python-gcp-otel --extras "django requests"
+# Install a specific version with Poetry
+poetry add git+https://github.com/CroudTech/croudtech-python-gcp-otel.git#v0.1.0
 ```
+
+### Optional Dependencies
+
+Install with extras for auto-instrumentation:
+
+```bash
+# With pip
+pip install "croudtech-python-gcp-otel[all] @ git+https://github.com/CroudTech/croudtech-python-gcp-otel.git"
+
+# Or specific instrumentations
+pip install "croudtech-python-gcp-otel[django,requests] @ git+https://github.com/CroudTech/croudtech-python-gcp-otel.git"
+```
+
+Available extras: `django`, `requests`, `psycopg2`, `logging`, `all`
 
 ## Usage
 
