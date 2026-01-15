@@ -62,14 +62,15 @@ class JSONFormatter(logging.Formatter):
             from opentelemetry import trace
 
             span = trace.get_current_span()
-            if span and span.is_recording():
-                ctx = span.get_span_context()
-                if ctx.is_valid:
-                    return (
-                        format(ctx.trace_id, '032x'),
-                        format(ctx.span_id, '016x'),
-                        ctx.trace_flags.sampled
-                    )
+            span_context = span.get_span_context() if span else None
+
+            # Check if we have a valid, recording span
+            if span_context and span_context.is_valid:
+                return (
+                    format(span_context.trace_id, '032x'),
+                    format(span_context.span_id, '016x'),
+                    span_context.trace_flags.sampled if hasattr(span_context.trace_flags, 'sampled') else False
+                )
         except ImportError:
             pass
         except Exception:
