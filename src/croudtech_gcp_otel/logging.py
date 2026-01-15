@@ -44,6 +44,39 @@ class JSONFormatter(logging.Formatter):
         )
         self.include_extra_fields = include_extra_fields
 
+    def _get_trace_context(self, record):
+        """Get trace context from LoggingInstrumentor attributes or directly from current span.
+
+        Returns tuple of (trace_id, span_id, trace_sampled) or (None, None, None) if not available.
+        """
+        # First, try to get from LoggingInstrumentor-injected attributes
+        trace_id = getattr(record, "otelTraceID", None)
+        span_id = getattr(record, "otelSpanID", None)
+        trace_sampled = getattr(record, "otelTraceSampled", None)
+
+        if trace_id:
+            return trace_id, span_id, trace_sampled
+
+        # Fallback: get trace context directly from current span
+        try:
+            from opentelemetry import trace
+
+            span = trace.get_current_span()
+            if span and span.is_recording():
+                ctx = span.get_span_context()
+                if ctx.is_valid:
+                    return (
+                        format(ctx.trace_id, '032x'),
+                        format(ctx.span_id, '016x'),
+                        ctx.trace_flags.sampled
+                    )
+        except ImportError:
+            pass
+        except Exception:
+            pass
+
+        return None, None, None
+
     def format(self, record):
         log_entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -63,18 +96,17 @@ class JSONFormatter(logging.Formatter):
                 "stacktrace": traceback.format_exception(*record.exc_info),
             }
 
-        # Add trace context if available (for correlation with Cloud Trace)
-        if hasattr(record, "otelTraceID") and record.otelTraceID:
-            if self.gcp_project_id:
-                log_entry["logging.googleapis.com/trace"] = (
-                    f"projects/{self.gcp_project_id}/traces/{record.otelTraceID}"
-                )
-        if hasattr(record, "otelSpanID") and record.otelSpanID:
-            log_entry["logging.googleapis.com/spanId"] = record.otelSpanID
+        # Add trace context for correlation with Cloud Trace
+        trace_id, span_id, trace_sampled = self._get_trace_context(record)
 
-        # Add trace_sampled flag if available
-        if hasattr(record, "otelTraceSampled"):
-            log_entry["logging.googleapis.com/trace_sampled"] = record.otelTraceSampled
+        if trace_id and self.gcp_project_id:
+            log_entry["logging.googleapis.com/trace"] = (
+                f"projects/{self.gcp_project_id}/traces/{trace_id}"
+            )
+        if span_id:
+            log_entry["logging.googleapis.com/spanId"] = span_id
+        if trace_sampled is not None:
+            log_entry["logging.googleapis.com/trace_sampled"] = trace_sampled
 
         # Add any extra fields from the record
         if self.include_extra_fields:
