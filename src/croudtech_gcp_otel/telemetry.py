@@ -174,7 +174,13 @@ def configure_telemetry(config: Optional[TelemetryConfig] = None):
             logger.error(f"Failed to configure Cloud Trace exporter: {e}")
 
     # Set the tracer provider
-    trace.set_tracer_provider(provider)
+    try:
+        trace.set_tracer_provider(provider)
+    except Exception as e:
+        # Provider already set (e.g., by another call or auto-instrumentation)
+        logger.debug(f"TracerProvider already set: {e}")
+        _telemetry_configured = True
+        return
 
     # Configure trace context propagation for distributed tracing
     # Include both W3C and GCP Cloud Trace propagators for broad compatibility
