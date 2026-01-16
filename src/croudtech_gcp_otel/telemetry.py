@@ -129,10 +129,6 @@ def configure_telemetry(config: Optional[TelemetryConfig] = None):
     """
     global _telemetry_configured
 
-    if _telemetry_configured:
-        logger.debug("Telemetry already configured, skipping")
-        return
-
     from opentelemetry import trace
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
@@ -142,6 +138,18 @@ def configure_telemetry(config: Optional[TelemetryConfig] = None):
     from opentelemetry.propagators.composite import CompositePropagator
     from opentelemetry.trace.propagation.tracecontext import TraceContextTextMapPropagator
     from opentelemetry.baggage.propagation import W3CBaggagePropagator
+
+    # Check if already configured (both our flag and OTel's internal state)
+    if _telemetry_configured:
+        logger.debug("Telemetry already configured (flag), skipping")
+        return
+
+    # Also check if a TracerProvider is already set (handles multi-process scenarios)
+    current_provider = trace.get_tracer_provider()
+    if isinstance(current_provider, TracerProvider):
+        logger.debug("TracerProvider already set, skipping configuration")
+        _telemetry_configured = True
+        return
 
     if config is None:
         config = TelemetryConfig()
