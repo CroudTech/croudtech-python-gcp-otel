@@ -23,23 +23,11 @@ opentelemetry-propagator-gcp = ">=1.6,<2.0"
 # OpenTelemetry - Resource detectors
 opentelemetry-resourcedetector-gcp = ">=1.6.0a0,<2.0"
 
-# OpenTelemetry - Instrumentations (optional, used by extras)
-opentelemetry-instrumentation-django = { version = ">=0.42b0", optional = true }
-opentelemetry-instrumentation-requests = { version = ">=0.42b0", optional = true }
-opentelemetry-instrumentation-psycopg2 = { version = ">=0.42b0", optional = true }
-opentelemetry-instrumentation-logging = { version = ">=0.42b0", optional = true }
-
-[tool.poetry.extras]
-django = ["opentelemetry-instrumentation-django"]
-requests = ["opentelemetry-instrumentation-requests"]
-psycopg2 = ["opentelemetry-instrumentation-psycopg2"]
-logging = ["opentelemetry-instrumentation-logging"]
-all = [
-    "opentelemetry-instrumentation-django",
-    "opentelemetry-instrumentation-requests",
-    "opentelemetry-instrumentation-psycopg2",
-    "opentelemetry-instrumentation-logging",
-]
+# OpenTelemetry - Instrumentations
+opentelemetry-instrumentation-django = ">=0.42b0"
+opentelemetry-instrumentation-requests = ">=0.42b0"
+opentelemetry-instrumentation-psycopg2 = ">=0.42b0"
+opentelemetry-instrumentation-logging = ">=0.42b0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0"

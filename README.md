@@ -18,19 +18,7 @@ poetry add git+https://github.com/CroudTech/croudtech-python-gcp-otel.git
 poetry add git+https://github.com/CroudTech/croudtech-python-gcp-otel.git#v0.1.0
 ```
 
-### Optional Dependencies
-
-Install with extras for auto-instrumentation:
-
-```bash
-# With pip
-pip install "croudtech-python-gcp-otel[all] @ git+https://github.com/CroudTech/croudtech-python-gcp-otel.git"
-
-# Or specific instrumentations
-pip install "croudtech-python-gcp-otel[django,requests] @ git+https://github.com/CroudTech/croudtech-python-gcp-otel.git"
-```
-
-Available extras: `django`, `requests`, `psycopg2`, `logging`, `all`
+All instrumentations (Django, requests, psycopg2, logging) are included by default.
 
 ## Usage
 
