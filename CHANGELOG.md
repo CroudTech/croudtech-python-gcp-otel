@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.0](https://github.com/CroudTech/croudtech-python-gcp-otel/compare/v0.2.1...v0.3.0) (2026-01-19)
+
+
+### Features
+
+* add PyPI publishing to release workflow ([18cc12f](https://github.com/CroudTech/croudtech-python-gcp-otel/commit/18cc12fff3a126e61a7123fe6681cb78a25cd7cb))
+
+
+### Bug Fixes
+
+* check for existing TracerProvider before configuration ([75c524a](https://github.com/CroudTech/croudtech-python-gcp-otel/commit/75c524ad5bee331a7cefad42e39a919feeed2e53))
+* handle TracerProvider already set exception gracefully ([8286d98](https://github.com/CroudTech/croudtech-python-gcp-otel/commit/8286d9861a4b38441ac8b8e77d34d940d4faff2b))
+* improve trace context extraction from non-recording spans ([18d13db](https://github.com/CroudTech/croudtech-python-gcp-otel/commit/18d13db15da7cefa0c2e27a1e80bf591e7bf285e))
+
 ## [0.2.1](https://github.com/CroudTech/croudtech-python-gcp-otel/compare/v0.2.0...v0.2.1) (2026-01-15)
 
 
