@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/CroudTech/croudtech-python-gcp-otel/compare/v0.3.0...v0.3.1) (2026-01-19)
+
+
+### Bug Fixes
+
+* sync version in __init__.py with release-please ([062992b](https://github.com/CroudTech/croudtech-python-gcp-otel/commit/062992be3ccf5fd7efcc244d8e8c8ae1cf39794a))
+
 ## [0.3.0](https://github.com/CroudTech/croudtech-python-gcp-otel/compare/v0.2.1...v0.3.0) (2026-01-19)
 
 
