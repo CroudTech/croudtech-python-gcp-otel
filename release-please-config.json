@@ -10,6 +10,11 @@
           "type": "toml",
           "path": "pyproject.toml",
           "jsonpath": "$.tool.poetry.version"
+        },
+        {
+          "type": "generic",
+          "path": "src/croudtech_gcp_otel/__init__.py",
+          "glob": "src/croudtech_gcp_otel/__init__.py"
         }
       ]
     }
