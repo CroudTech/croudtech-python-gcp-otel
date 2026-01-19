@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/CroudTech/croudtech-python-gcp-otel/compare/v0.3.1...v1.0.0) (2026-01-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* Extras are no longer available; all instrumentations are always installed.
+
+### Features
+
+* include all instrumentations by default ([bff1505](https://github.com/CroudTech/croudtech-python-gcp-otel/commit/bff1505b848d4f7c1ed04a2604cea5d93400776f))
+
 ## [0.3.1](https://github.com/CroudTech/croudtech-python-gcp-otel/compare/v0.3.0...v0.3.1) (2026-01-19)
 
 

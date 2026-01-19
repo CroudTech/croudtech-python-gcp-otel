@@ -30,7 +30,7 @@ from croudtech_gcp_otel.logging import (
     configure_logging,
 )
 
-__version__ = "0.3.1"  # x-release-please-version
+__version__ = "1.0.0"  # x-release-please-version
 
 __all__ = [
     # Telemetry
